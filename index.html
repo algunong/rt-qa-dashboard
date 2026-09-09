@@ -22,8 +22,6 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
-
-  /* HEADER */
   .header {
     background: linear-gradient(135deg, var(--navy), var(--navy-light));
     color: white; padding: 18px 28px;
@@ -32,8 +30,6 @@
   .header h1 { font-size: 20px; font-weight: 700; }
   .header p  { font-size: 12px; opacity: 0.75; margin-top: 2px; }
   .header-right { text-align: right; font-size: 11px; opacity: 0.7; }
-
-  /* FILTERS */
   .filters {
     background: var(--white); border-bottom: 2px solid var(--border);
     padding: 14px 28px; display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
@@ -45,8 +41,6 @@
     padding: 6px 10px; font-size: 12px; color: var(--text); background: var(--bg);
   }
   .filter-group input:focus, .filter-group select:focus { outline: none; border-color: var(--navy-light); }
-
-  /* Multi-select agent dropdown */
   .multi-select-wrapper { position: relative; }
   .multi-select-btn {
     border: 1px solid var(--border); border-radius: 6px;
@@ -77,17 +71,12 @@
     border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer;
   }
   .btn-apply:hover { background: var(--navy-light); }
-
   .btn-reset {
     padding: 6px 16px; background: var(--orange); color: white;
     border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
   }
   .btn-reset:hover { background: var(--orange-light); }
-
-  /* MAIN */
   .main { padding: 20px 28px; }
-
-  /* STAT CARDS */
   .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
   .stat-card {
     background: var(--white); border-radius: 10px;
@@ -101,8 +90,6 @@
   .stat-card .label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
   .stat-card .value { font-size: 26px; font-weight: 700; color: var(--navy); margin: 4px 0 0; }
   .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* CHARTS ROW */
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
   .chart-card {
     background: var(--white); border-radius: 10px;
@@ -110,8 +97,6 @@
   }
   .chart-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
   .chart-wrap { position: relative; height: 220px; }
-
-  /* AGENT TABLE */
   .table-card {
     background: var(--white); border-radius: 10px;
     padding: 16px 18px; border: 1px solid var(--border); margin-bottom: 20px;
@@ -121,29 +106,21 @@
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   th {
     background: var(--navy); color: white; padding: 9px 10px;
-    text-align: center; font-size: 11px; font-weight: 600;
-    white-space: nowrap;
+    text-align: center; font-size: 11px; font-weight: 600; white-space: nowrap;
   }
   th:first-child { text-align: left; }
   td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: center; }
   td:first-child { text-align: left; font-weight: 600; }
   tr:hover td { background: #F8FAFE; }
   tr.team-avg td { background: #EBF2FA; font-weight: 700; border-top: 2px solid var(--navy); }
-
-  .pill {
-    display: inline-block; padding: 2px 8px; border-radius: 20px;
-    font-size: 11px; font-weight: 700;
-  }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .pill.green  { background: #D5F5E3; color: #1E8449; }
   .pill.yellow { background: #FEF9E7; color: #9A7D0A; }
   .pill.red    { background: #FADBD8; color: #943126; }
   .pill.gray   { background: #F2F3F4; color: #7F8C8D; }
-
   .pass  { color: var(--green); font-weight: 700; }
   .fail  { color: var(--red);   font-weight: 700; }
   .na    { color: var(--muted); }
-
-  /* AUDIT LOG */
   .log-card {
     background: var(--white); border-radius: 10px;
     padding: 16px 18px; border: 1px solid var(--border);
@@ -154,12 +131,7 @@
   .log-table td a { color: var(--navy-light); text-decoration: none; }
   .log-table td a:hover { text-decoration: underline; }
   .remarks-cell { max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
   .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
-  .section-title {
-    font-size: 11px; font-weight: 700; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
-  }
 </style>
 </head>
 <body>
@@ -175,7 +147,6 @@
   </div>
 </div>
 
-<!-- FILTERS -->
 <div class="filters">
   <div class="filter-group">
     <label>👤 Filter Agents</label>
@@ -195,7 +166,6 @@
       </div>
     </div>
   </div>
-
   <div class="filter-group">
     <label>📅 Start Date</label>
     <input type="date" id="start-date">
@@ -238,7 +208,6 @@
   <div id="loading" class="loading">Loading QA data...</div>
   <div id="dashboard" style="display:none">
 
-    <!-- STAT CARDS -->
     <div class="stat-cards">
       <div class="stat-card orange">
         <div class="label">Avg QA Score</div>
@@ -267,7 +236,6 @@
       </div>
     </div>
 
-    <!-- CHARTS -->
     <div class="charts-row">
       <div class="chart-card">
         <h3>📈 Avg QA Score by Agent</h3>
@@ -290,26 +258,16 @@
       </div>
     </div>
 
-    <!-- AGENT SUMMARY TABLE -->
     <div class="table-card">
       <h3>👥 Agent QA Summary</h3>
       <div class="table-wrap">
         <table id="agent-table">
           <thead>
             <tr>
-              <th>Agent</th>
-              <th>Audits</th>
-              <th>Avg Score</th>
-              <th>P1<br>Email</th>
-              <th>P2<br>Comm</th>
-              <th>P3<br>Order</th>
-              <th>P4<br>Billing</th>
-              <th>P5<br>Delivery</th>
-              <th>P6<br>Translator</th>
-              <th>P7<br>Doc QC</th>
-              <th>P8<br>Hist Rev</th>
-              <th>P9<br>Revenue</th>
-              <th>P10<br>Upsell Flag</th>
+              <th>Agent</th><th>Audits</th><th>Avg Score</th>
+              <th>P1<br>Email</th><th>P2<br>Comm</th><th>P3<br>Order</th>
+              <th>P4<br>Billing</th><th>P5<br>Delivery</th><th>P6<br>Translator</th>
+              <th>P7<br>Doc QC</th><th>P8<br>Hist Rev</th><th>P9<br>Revenue</th><th>P10<br>Upsell Flag</th>
             </tr>
           </thead>
           <tbody id="agent-tbody"></tbody>
@@ -317,23 +275,16 @@
       </div>
     </div>
 
-    <!-- AUDIT LOG -->
     <div class="log-card">
       <h3>📋 Audit Log <span style="font-size:11px;color:var(--muted);font-weight:400" id="log-count"></span></h3>
       <div class="table-wrap">
         <table class="log-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Agent</th>
-              <th>Auditor</th>
-              <th>Channel</th>
-              <th>Order #</th>
-              <th>Score</th>
+              <th>Date</th><th>Agent</th><th>Auditor</th><th>Channel</th><th>Order #</th><th>Score</th>
               <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th>
               <th>P6</th><th>P7</th><th>P8</th><th>P9</th><th>P10</th>
-              <th>Remarks</th>
-              <th>Link</th>
+              <th>Remarks</th><th>Link</th>
             </tr>
           </thead>
           <tbody id="log-tbody"></tbody>
@@ -341,19 +292,40 @@
       </div>
     </div>
 
-  </div><!-- end dashboard -->
+  </div>
 </div>
 
 <script>
 const SHEET_ID = '1PkdIg15kweWobxUfApY03PXJnpD-_OamgmgG818nQ5w';
 const GID      = '1917347646';
 
-let allRows = [];
-let allAgents = [];
-let selectedAgents = new Set();
-let charts = {};
+let allRows = [], allAgents = [], selectedAgents = new Set(), charts = {};
 
-// ── Fetch data via JSONP (works from file:// without CORS issues) ─────────
+// ── Parse a gviz date value into YYYY-MM-DD string ────────────────────────
+function parseDateStr(v) {
+  if (!v) return '';
+  const s = String(v);
+  // gviz JSONP format: "Date(2026,7,10)" — month is 0-indexed
+  const gviz = s.match(/Date\((\d+),(\d+),(\d+)/);
+  if (gviz) {
+    const y = gviz[1], m = String(parseInt(gviz[2]) + 1).padStart(2,'0'), d = String(gviz[3]).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+  // "M/D/YYYY" format
+  const slash = s.match(/^(\d+)\/(\d+)\/(\d+)/);
+  if (slash) {
+    return `${slash[3]}-${String(slash[1]).padStart(2,'0')}-${String(slash[2]).padStart(2,'0')}`;
+  }
+  // Numeric serial (rarely seen in JSONP)
+  const n = parseFloat(s);
+  if (!isNaN(n)) {
+    const d2 = new Date(1899, 11, 30 + Math.floor(n));
+    return d2.toISOString().slice(0, 10);
+  }
+  return '';
+}
+
+// ── Fetch data via JSONP ──────────────────────────────────────────────────
 function fetchData() {
   return new Promise((resolve, reject) => {
     const cbName = 'gvizCb_' + Date.now();
@@ -368,415 +340,213 @@ function fetchData() {
     script.src = url;
     document.body.appendChild(script);
   }).then(json => {
-
-  const rows = json.table.rows;
-  const parsed = [];
-
-  for (let i = 1; i < rows.length; i++) {
-    const r = rows[i].c;
-    if (!r || !r[0] || !r[0].v) continue; // skip empty / weights row
-
-    const ts = r[0].v;
-    // Parse date from timestamp string or date value
-    let dateStr = '';
-    let dateObj  = null;
-    if (typeof ts === 'string') {
-      const m = ts.match(/(\d+)\/(\d+)\/(\d+)/);
-      if (m) {
-        dateObj  = new Date(m[3], m[1]-1, m[2]);
-        dateStr  = `${m[3]}-${String(m[1]).padStart(2,'0')}-${String(m[2]).padStart(2,'0')}`;
-      }
-    } else if (typeof ts === 'number') {
-      // gviz date serial
-      dateObj = new Date(1899,11,30 + Math.floor(ts));
-      dateStr = dateObj.toISOString().slice(0,10);
+    const rows = json.table.rows;
+    const parsed = [];
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i].c;
+      if (!r || !r[0] || !r[0].v) continue;
+      const get = (col) => (r[col] && r[col].v != null) ? String(r[col].v).trim() : '';
+      const dateStr = parseDateStr(r[0].v);
+      const score = parseFloat(get(20)) || 0;
+      parsed.push({
+        dateStr,
+        auditor:   get(2),  agent:    get(3),
+        auditDate: get(4),  channel:  get(5),
+        orderNum:  get(6),  convLink: get(7),
+        p1: get(8),  p2: get(9),  p3: get(10), p4: get(11),
+        p5: get(12), p6: get(13), p7: get(14), p8: get(15),
+        p9: get(16), p10: get(17),
+        remarks:   get(18), auditType: get(19),
+        score,
+        month:     get(21), monthYear: get(22),
+      });
     }
-
-    const get = (col) => (r[col] && r[col].v != null) ? String(r[col].v).trim() : '';
-    const score = parseFloat(get(20)) || 0;
-
-    parsed.push({
-      timestamp:  ts,
-      dateStr,
-      dateObj,
-      email:      get(1),
-      auditor:    get(2),
-      agent:      get(3),
-      auditDate:  get(4),
-      channel:    get(5),
-      orderNum:   get(6),
-      convLink:   get(7),
-      p1: get(8), p2: get(9),  p3: get(10), p4: get(11),
-      p5: get(12),p6: get(13), p7: get(14), p8: get(15),
-      p9: get(16),p10: get(17),
-      remarks:    get(18),
-      auditType:  get(19),
-      score,
-      month:      get(21),
-      monthYear:  get(22),
-    });
-  }
-
-  return parsed;
-  }); // end .then()
+    return parsed;
+  });
 }
-
-// ── Date helpers ──────────────────────────────────────────────────────────
-function isoFromInput(val) { return val || ''; }
 
 // ── Filter ────────────────────────────────────────────────────────────────
 function getFiltered() {
-  const start   = document.getElementById('start-date').value;
-  const end     = document.getElementById('end-date').value;
-  const channel = document.getElementById('channel-filter').value;
-  const month   = document.getElementById('month-filter').value;
-
+  const start     = document.getElementById('start-date').value;
+  const end       = document.getElementById('end-date').value;
+  const channel   = document.getElementById('channel-filter').value;
+  const month     = document.getElementById('month-filter').value;
+  const auditType = document.getElementById('audit-type-filter').value;
   return allRows.filter(r => {
     if (start && r.dateStr < start) return false;
     if (end   && r.dateStr > end)   return false;
-    if (channel && r.channel !== channel) return false;
-    if (month  && r.monthYear !== month)  return false;
-    const auditType = document.getElementById('audit-type-filter').value;
-    if (auditType && r.auditType !== auditType) return false;
+    if (channel   && r.channel   !== channel)   return false;
+    if (month     && r.monthYear !== month)      return false;
+    if (auditType && r.auditType !== auditType)  return false;
     if (selectedAgents.size > 0 && !selectedAgents.has(r.agent)) return false;
     return true;
   });
 }
 
-// ── Render all ────────────────────────────────────────────────────────────
 function renderAll() {
   const rows = getFiltered();
-  renderCards(rows);
-  renderAgentChart(rows);
-  renderTrendChart(rows);
-  renderParamChart(rows);
-  renderChannelChart(rows);
-  renderAgentTable(rows);
-  renderLog(rows);
+  renderCards(rows); renderAgentChart(rows); renderTrendChart(rows);
+  renderParamChart(rows); renderChannelChart(rows);
+  renderAgentTable(rows); renderLog(rows);
 }
 
-// ── Score pill ────────────────────────────────────────────────────────────
 function scorePill(score) {
   if (!score) return '<span class="pill gray">—</span>';
   const cls = score >= 95 ? 'green' : score >= 80 ? 'yellow' : 'red';
   return `<span class="pill ${cls}">${score.toFixed(2)}%</span>`;
 }
-
 function pCell(val) {
-  if (!val || val === '') return '<span class="na">—</span>';
+  if (!val) return '<span class="na">—</span>';
   if (val === 'Yes') return '<span class="pass">✔</span>';
   if (val === 'No')  return '<span class="fail">✘</span>';
   return '<span class="na">NA</span>';
 }
 
-// ── Stat cards ────────────────────────────────────────────────────────────
 function renderCards(rows) {
   const scores = rows.map(r => r.score).filter(s => s > 0);
-  const avg    = scores.length ? scores.reduce((a,b) => a+b, 0) / scores.length : 0;
-  const pass   = scores.filter(s => s >= 95).length;
-  const agents = new Set(rows.map(r => r.agent)).size;
-
-  const p9rows = rows.filter(r => r.p9 === 'Yes' || r.p9 === 'No');
-  const p9pass = p9rows.filter(r => r.p9 === 'Yes').length;
-
-  document.getElementById('avg-score').textContent    = avg ? avg.toFixed(2) + '%' : '—';
+  const avg  = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+  const pass = scores.filter(s => s >= 95).length;
+  const p9rows = rows.filter(r => r.p9==='Yes'||r.p9==='No');
+  const p9pass = p9rows.filter(r => r.p9==='Yes').length;
+  document.getElementById('avg-score').textContent    = avg ? avg.toFixed(2)+'%' : '—';
   document.getElementById('total-audits').textContent = rows.length;
-  document.getElementById('pass-rate').textContent    = scores.length ? Math.round(pass/scores.length*100) + '%' : '—';
-  document.getElementById('agents-count').textContent = agents;
-  document.getElementById('rev-pass').textContent     = p9rows.length ? Math.round(p9pass/p9rows.length*100) + '%' : '—';
-  document.getElementById('last-updated').textContent = 'Updated: ' + new Date().toLocaleString();
+  document.getElementById('pass-rate').textContent    = scores.length ? Math.round(pass/scores.length*100)+'%' : '—';
+  document.getElementById('agents-count').textContent = new Set(rows.map(r=>r.agent)).size;
+  document.getElementById('rev-pass').textContent     = p9rows.length ? Math.round(p9pass/p9rows.length*100)+'%' : '—';
+  document.getElementById('last-updated').textContent = 'Updated: '+new Date().toLocaleString();
 }
 
-// ── Agent bar chart ───────────────────────────────────────────────────────
 function renderAgentChart(rows) {
   const byAgent = {};
-  rows.forEach(r => {
-    if (!byAgent[r.agent]) byAgent[r.agent] = [];
-    if (r.score > 0) byAgent[r.agent].push(r.score);
-  });
+  rows.forEach(r => { if(!byAgent[r.agent]) byAgent[r.agent]=[]; if(r.score>0) byAgent[r.agent].push(r.score); });
   const agents = Object.keys(byAgent).sort();
-  const avgs   = agents.map(a => {
-    const sc = byAgent[a];
-    return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2) : 0;
-  });
-
-  const colors = avgs.map(s => s >= 95 ? '#27AE60' : s >= 80 ? '#F39C12' : '#E74C3C');
-
+  const avgs   = agents.map(a => { const sc=byAgent[a]; return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0; });
+  const colors = avgs.map(s => s>=95?'#27AE60':s>=80?'#F39C12':'#E74C3C');
   if (charts.agent) charts.agent.destroy();
   charts.agent = new Chart(document.getElementById('agentChart'), {
-    type: 'bar',
-    data: {
-      labels: agents,
-      datasets: [{ label: 'Avg QA Score (%)', data: avgs, backgroundColor: colors, borderRadius: 5 }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { min: 0, max: 100, ticks: { callback: v => v + '%' } },
-        x: { ticks: { font: { size: 10 } } }
-      }
-    }
+    type:'bar', data:{labels:agents,datasets:[{label:'Avg QA Score (%)',data:avgs,backgroundColor:colors,borderRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}},x:{ticks:{font:{size:10}}}}}
   });
 }
 
-// ── Trend chart ───────────────────────────────────────────────────────────
 function renderTrendChart(rows) {
   const byMonth = {};
-  rows.forEach(r => {
-    const key = r.monthYear || 'Unknown';
-    if (!byMonth[key]) byMonth[key] = [];
-    if (r.score > 0) byMonth[key].push(r.score);
-  });
+  rows.forEach(r => { const k=r.monthYear||'Unknown'; if(!byMonth[k]) byMonth[k]=[]; if(r.score>0) byMonth[k].push(r.score); });
   const months = Object.keys(byMonth).sort();
-  const avgs   = months.map(m => {
-    const sc = byMonth[m];
-    return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2) : 0;
-  });
-
+  const avgs   = months.map(m => { const sc=byMonth[m]; return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0; });
   if (charts.trend) charts.trend.destroy();
   charts.trend = new Chart(document.getElementById('trendChart'), {
-    type: 'line',
-    data: {
-      labels: months,
-      datasets: [{
-        label: 'Avg QA Score (%)',
-        data: avgs,
-        borderColor: '#1B3A5C',
-        backgroundColor: 'rgba(27,58,92,0.08)',
-        fill: true, tension: 0.3, pointRadius: 5,
-        pointBackgroundColor: '#E67E00'
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
-      }
-    }
+    type:'line', data:{labels:months,datasets:[{label:'Avg QA Score (%)',data:avgs,borderColor:'#1B3A5C',backgroundColor:'rgba(27,58,92,0.08)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:'#E67E00'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}}}}
   });
 }
 
-// ── Parameter pass rate chart ─────────────────────────────────────────────
 function renderParamChart(rows) {
   const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9'];
   const labels = ['P1 Email','P2 Comm','P3 Order','P4 Billing','P5 Delivery','P6 Translator','P7 Doc QC','P8 History','P9 Revenue'];
-  const rates  = params.map(p => {
-    const scored = rows.filter(r => r[p] === 'Yes' || r[p] === 'No');
-    if (!scored.length) return 0;
-    return +(scored.filter(r => r[p] === 'Yes').length / scored.length * 100).toFixed(1);
-  });
-  const colors = rates.map(r => r >= 95 ? '#27AE60' : r >= 80 ? '#F39C12' : '#E74C3C');
-
+  const rates  = params.map(p => { const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No'); return s.length ? +(s.filter(r=>r[p]==='Yes').length/s.length*100).toFixed(1):0; });
+  const colors = rates.map(r => r>=95?'#27AE60':r>=80?'#F39C12':'#E74C3C');
   if (charts.param) charts.param.destroy();
   charts.param = new Chart(document.getElementById('paramChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{ label: 'Pass Rate (%)', data: rates, backgroundColor: colors, borderRadius: 4 }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { min: 0, max: 100, ticks: { callback: v => v + '%' } },
-        y: { ticks: { font: { size: 10 } } }
-      }
-    }
+    type:'bar', data:{labels,datasets:[{label:'Pass Rate (%)',data:rates,backgroundColor:colors,borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}},y:{ticks:{font:{size:10}}}}}
   });
 }
 
-// ── Channel donut ─────────────────────────────────────────────────────────
 function renderChannelChart(rows) {
-  const email = rows.filter(r => r.channel === 'Email').length;
-  const voice = rows.filter(r => r.channel === 'Voice').length;
-
+  const email=rows.filter(r=>r.channel==='Email').length, voice=rows.filter(r=>r.channel==='Voice').length;
   if (charts.channel) charts.channel.destroy();
   charts.channel = new Chart(document.getElementById('channelChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Email', 'Voice'],
-      datasets: [{ data: [email, voice], backgroundColor: ['#2E5F8A','#E67E00'], borderWidth: 2 }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
-    }
+    type:'doughnut', data:{labels:['Email','Voice'],datasets:[{data:[email,voice],backgroundColor:['#2E5F8A','#E67E00'],borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}
   });
 }
 
-// ── Agent summary table ───────────────────────────────────────────────────
 function renderAgentTable(rows) {
   const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
-
   const byAgent = {};
-  rows.forEach(r => {
-    if (!byAgent[r.agent]) byAgent[r.agent] = [];
-    byAgent[r.agent].push(r);
-  });
-
-  function passRate(agentRows, param) {
-    const scored = agentRows.filter(r => r[param] === 'Yes' || r[param] === 'No');
-    if (!scored.length) return '—';
-    const rate = scored.filter(r => r[param] === 'Yes').length / scored.length * 100;
-    const cls  = rate >= 95 ? 'green' : rate >= 80 ? 'yellow' : 'red';
-    return `<span class="pill ${cls}">${Math.round(rate)}%</span>`;
+  rows.forEach(r => { if(!byAgent[r.agent]) byAgent[r.agent]=[]; byAgent[r.agent].push(r); });
+  function passRate(ar, p) {
+    const s=ar.filter(r=>r[p]==='Yes'||r[p]==='No'); if(!s.length) return '—';
+    const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;
+    return `<span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span>`;
   }
-
-  function avgScore(agentRows) {
-    const scores = agentRows.map(r => r.score).filter(s => s > 0);
-    return scores.length ? scores.reduce((a,b) => a+b,0) / scores.length : 0;
-  }
-
-  const agents = Object.keys(byAgent).sort();
-  let html = '';
-
-  agents.forEach(agent => {
-    const aRows = byAgent[agent];
-    const avg   = avgScore(aRows);
-    html += `<tr>
-      <td>${agent}</td>
-      <td>${aRows.length}</td>
-      <td>${scorePill(avg)}</td>
-      ${params.map(p => `<td>${passRate(aRows, p)}</td>`).join('')}
-    </tr>`;
-  });
-
-  // Team average row
-  const allScores = rows.map(r => r.score).filter(s => s > 0);
-  const teamAvg   = allScores.length ? allScores.reduce((a,b) => a+b,0) / allScores.length : 0;
-  html += `<tr class="team-avg">
-    <td>TEAM AVG</td>
-    <td>${rows.length}</td>
-    <td>${scorePill(teamAvg)}</td>
-    ${params.map(p => {
-      const scored = rows.filter(r => r[p] === 'Yes' || r[p] === 'No');
-      if (!scored.length) return '<td>—</td>';
-      const rate = scored.filter(r => r[p] === 'Yes').length / scored.length * 100;
-      const cls  = rate >= 95 ? 'green' : rate >= 80 ? 'yellow' : 'red';
-      return `<td><span class="pill ${cls}">${Math.round(rate)}%</span></td>`;
-    }).join('')}
-  </tr>`;
-
+  function avgScore(ar) { const sc=ar.map(r=>r.score).filter(s=>s>0); return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:0; }
+  let html = Object.keys(byAgent).sort().map(agent => {
+    const ar=byAgent[agent], avg=avgScore(ar);
+    return `<tr><td>${agent}</td><td>${ar.length}</td><td>${scorePill(avg)}</td>${params.map(p=>`<td>${passRate(ar,p)}</td>`).join('')}</tr>`;
+  }).join('');
+  const allScores=rows.map(r=>r.score).filter(s=>s>0), teamAvg=allScores.length?allScores.reduce((a,b)=>a+b,0)/allScores.length:0;
+  html += `<tr class="team-avg"><td>TEAM AVG</td><td>${rows.length}</td><td>${scorePill(teamAvg)}</td>${params.map(p=>{
+    const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No'); if(!s.length) return '<td>—</td>';
+    const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;
+    return `<td><span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span></td>`;
+  }).join('')}</tr>`;
   document.getElementById('agent-tbody').innerHTML = html;
 }
 
-// ── Audit log ─────────────────────────────────────────────────────────────
 function renderLog(rows) {
-  const sorted = [...rows].sort((a,b) => (b.dateStr || '').localeCompare(a.dateStr || ''));
-  document.getElementById('log-count').textContent = `(${sorted.length} audits)`;
-
-  const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
-  let html = '';
-  sorted.forEach(r => {
-    const link = r.convLink ? `<a href="${r.convLink}" target="_blank">🔗</a>` : '—';
-    html += `<tr>
-      <td>${r.dateStr || ''}</td>
-      <td>${r.agent}</td>
-      <td>${r.auditor}</td>
-      <td>${r.channel}</td>
-      <td>${r.orderNum || '—'}</td>
-      <td>${scorePill(r.score)}</td>
-      ${params.map(p => `<td>${pCell(r[p])}</td>`).join('')}
-      <td class="remarks-cell" title="${(r.remarks||'').replace(/"/g,"'")}">${r.remarks || '—'}</td>
-      <td>${link}</td>
-    </tr>`;
-  });
-  document.getElementById('log-tbody').innerHTML = html;
+  const sorted=[...rows].sort((a,b)=>(b.dateStr||'').localeCompare(a.dateStr||''));
+  document.getElementById('log-count').textContent=`(${sorted.length} audits)`;
+  const params=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
+  document.getElementById('log-tbody').innerHTML = sorted.map(r => `<tr>
+    <td>${r.dateStr||''}</td><td>${r.agent}</td><td>${r.auditor}</td><td>${r.channel}</td><td>${r.orderNum||'—'}</td>
+    <td>${scorePill(r.score)}</td>${params.map(p=>`<td>${pCell(r[p])}</td>`).join('')}
+    <td class="remarks-cell" title="${(r.remarks||'').replace(/"/g,"'")}">${r.remarks||'—'}</td>
+    <td>${r.convLink?`<a href="${r.convLink}" target="_blank">🔗</a>`:'—'}</td>
+  </tr>`).join('');
 }
 
-// ── Agent multi-select ────────────────────────────────────────────────────
 function buildAgentCheckboxes() {
-  const list = document.getElementById('agent-checkboxes');
-  list.innerHTML = allAgents.map(a => `
-    <label>
-      <input type="checkbox" value="${a}" checked onchange="syncSelected()"> ${a}
-    </label>`).join('');
+  document.getElementById('agent-checkboxes').innerHTML = allAgents.map(a =>
+    `<label><input type="checkbox" value="${a}" checked onchange="syncSelected()"> ${a}</label>`).join('');
   selectedAgents = new Set(allAgents);
   updateAgentLabel();
 }
-
 function syncSelected() {
-  selectedAgents = new Set(
-    [...document.querySelectorAll('#agent-checkboxes input:checked')].map(c => c.value)
-  );
+  selectedAgents = new Set([...document.querySelectorAll('#agent-checkboxes input:checked')].map(c=>c.value));
   updateAgentLabel();
 }
-
 function updateAgentLabel() {
-  const lbl = document.getElementById('agent-label');
-  if (selectedAgents.size === 0 || selectedAgents.size === allAgents.length)
-    lbl.textContent = `All Agents (${allAgents.length})`;
-  else
-    lbl.textContent = `${selectedAgents.size} of ${allAgents.length} selected`;
+  document.getElementById('agent-label').textContent =
+    (!selectedAgents.size || selectedAgents.size===allAgents.length) ? `All Agents (${allAgents.length})` : `${selectedAgents.size} of ${allAgents.length} selected`;
 }
+function toggleAgentDropdown(e) { e.stopPropagation(); document.getElementById('agent-panel').classList.toggle('hidden'); }
+document.addEventListener('click', () => document.getElementById('agent-panel')?.classList.add('hidden'));
+function selectAllAgents() { document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=true); syncSelected(); }
+function clearAllAgents()  { document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=false); syncSelected(); }
+function applyAgentFilter() { document.getElementById('agent-panel').classList.add('hidden'); renderAll(); }
 
-function toggleAgentDropdown(e) {
-  e.stopPropagation();
-  document.getElementById('agent-panel').classList.toggle('hidden');
-}
-
-document.addEventListener('click', () => {
-  document.getElementById('agent-panel')?.classList.add('hidden');
-});
-
-function selectAllAgents() {
-  document.querySelectorAll('#agent-checkboxes input').forEach(c => c.checked = true);
-  syncSelected();
-}
-
-function clearAllAgents() {
-  document.querySelectorAll('#agent-checkboxes input').forEach(c => c.checked = false);
-  syncSelected();
-}
-
-function applyAgentFilter() {
-  document.getElementById('agent-panel').classList.add('hidden');
-  renderAll();
-}
-
-// ── Month dropdown ────────────────────────────────────────────────────────
 function buildMonthDropdown() {
-  const months = [...new Set(allRows.map(r => r.monthYear).filter(Boolean))].sort();
-  const sel = document.getElementById('month-filter');
-  months.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m; opt.textContent = m;
-    sel.appendChild(opt);
-  });
+  const months=[...new Set(allRows.map(r=>r.monthYear).filter(Boolean))].sort();
+  const sel=document.getElementById('month-filter');
+  months.forEach(m => { const o=document.createElement('option'); o.value=m; o.textContent=m; sel.appendChild(o); });
 }
 
-// ── Filters ───────────────────────────────────────────────────────────────
-['start-date','end-date','channel-filter','month-filter','audit-type-filter'].forEach(id => {
-  document.getElementById(id).addEventListener('change', renderAll);
-});
+['start-date','end-date','channel-filter','month-filter','audit-type-filter'].forEach(id =>
+  document.getElementById(id).addEventListener('change', renderAll));
 
 function resetFilters() {
-  document.getElementById('start-date').value   = '';
-  document.getElementById('end-date').value     = '';
-  document.getElementById('channel-filter').value = '';
-  document.getElementById('month-filter').value = '';
-  document.getElementById('audit-type-filter').value = 'QA';
-  selectAllAgents();
-  renderAll();
+  document.getElementById('start-date').value='';
+  document.getElementById('end-date').value='';
+  document.getElementById('channel-filter').value='';
+  document.getElementById('month-filter').value='';
+  document.getElementById('audit-type-filter').value='QA';
+  selectAllAgents(); renderAll();
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────
 (async function init() {
   try {
     allRows   = await fetchData();
-    allAgents = [...new Set(allRows.map(r => r.agent).filter(Boolean))].sort();
-
+    allAgents = [...new Set(allRows.map(r=>r.agent).filter(Boolean))].sort();
     buildAgentCheckboxes();
     buildMonthDropdown();
-
-    document.getElementById('loading').style.display   = 'none';
-    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('loading').style.display='none';
+    document.getElementById('dashboard').style.display='block';
     renderAll();
   } catch(err) {
-    document.getElementById('loading').textContent = 'Error loading data: ' + err.message;
+    document.getElementById('loading').textContent='Error loading data: '+err.message;
     console.error(err);
   }
 })();

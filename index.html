@@ -7,21 +7,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --navy: #1B3A5C;
-    --navy-light: #2E5F8A;
-    --orange: #E67E00;
-    --orange-light: #F5A623;
-    --green: #27AE60;
-    --red: #E74C3C;
-    --yellow: #F39C12;
-    --bg: #F4F6F9;
-    --white: #FFFFFF;
-    --border: #DDE3EC;
-    --text: #2C3E50;
-    --muted: #7F8C8D;
+    --navy: #1B3A5C; --navy-light: #2E5F8A;
+    --orange: #E67E00; --orange-light: #F5A623;
+    --green: #27AE60; --red: #E74C3C; --yellow: #F39C12;
+    --bg: #F4F6F9; --white: #FFFFFF; --border: #DDE3EC;
+    --text: #2C3E50; --muted: #7F8C8D;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+  /* HEADER */
   .header {
     background: linear-gradient(135deg, var(--navy), var(--navy-light));
     color: white; padding: 18px 28px;
@@ -30,26 +25,40 @@
   .header h1 { font-size: 20px; font-weight: 700; }
   .header p  { font-size: 12px; opacity: 0.75; margin-top: 2px; }
   .header-right { text-align: right; font-size: 11px; opacity: 0.7; }
-  .filters {
+
+  /* TABS */
+  .tab-bar {
     background: var(--white); border-bottom: 2px solid var(--border);
-    padding: 14px 28px; display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
+    display: flex; gap: 0; padding: 0 28px;
+  }
+  .tab-btn {
+    padding: 12px 24px; font-size: 13px; font-weight: 600;
+    border: none; background: none; cursor: pointer;
+    color: var(--muted); border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: all 0.2s;
+  }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--orange); }
+  .tab-btn:hover:not(.active) { color: var(--navy); }
+
+  /* FILTERS */
+  .filters {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 12px 28px; display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end;
   }
   .filter-group { display: flex; flex-direction: column; gap: 4px; }
-  .filter-group label { font-size: 11px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; }
+  .filter-group label { font-size: 10px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; }
   .filter-group input, .filter-group select {
     border: 1px solid var(--border); border-radius: 6px;
     padding: 6px 10px; font-size: 12px; color: var(--text); background: var(--bg);
   }
-  .filter-group input:focus, .filter-group select:focus { outline: none; border-color: var(--navy-light); }
   .multi-select-wrapper { position: relative; }
   .multi-select-btn {
     border: 1px solid var(--border); border-radius: 6px;
     padding: 6px 10px; font-size: 12px; background: var(--bg);
-    cursor: pointer; min-width: 200px; display: flex; justify-content: space-between; align-items: center;
-    color: var(--text);
+    cursor: pointer; min-width: 180px; display: flex; justify-content: space-between; align-items: center; color: var(--text);
   }
   .multi-select-panel {
-    position: absolute; top: 100%; left: 0; z-index: 100;
+    position: absolute; top: 100%; left: 0; z-index: 200;
     background: white; border: 1px solid var(--border); border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.12); min-width: 220px; padding: 8px 0;
   }
@@ -60,29 +69,20 @@
     border-radius: 4px; cursor: pointer; background: var(--bg); color: var(--navy);
   }
   .agent-checkbox-list { max-height: 180px; overflow-y: auto; padding: 4px 0; }
-  .agent-checkbox-list label {
-    display: flex; align-items: center; gap: 8px;
-    padding: 5px 12px; font-size: 12px; cursor: pointer;
-  }
+  .agent-checkbox-list label { display: flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; }
   .agent-checkbox-list label:hover { background: var(--bg); }
   .multi-select-footer { padding: 8px 10px; border-top: 1px solid var(--border); }
-  .btn-apply {
-    width: 100%; padding: 6px; background: var(--navy); color: white;
-    border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer;
-  }
-  .btn-apply:hover { background: var(--navy-light); }
-  .btn-reset {
-    padding: 6px 16px; background: var(--orange); color: white;
-    border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
-  }
+  .btn-apply { width: 100%; padding: 6px; background: var(--navy); color: white; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-reset { padding: 6px 16px; background: var(--orange); color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
   .btn-reset:hover { background: var(--orange-light); }
-  .main { padding: 20px 28px; }
-  .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
-  .stat-card {
-    background: var(--white); border-radius: 10px;
-    padding: 16px 18px; border: 1px solid var(--border);
-    border-left: 4px solid var(--navy);
-  }
+
+  /* TAB CONTENT */
+  .tab-content { display: none; padding: 20px 28px; }
+  .tab-content.active { display: block; }
+
+  /* STAT CARDS */
+  .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .stat-card { background: var(--white); border-radius: 10px; padding: 16px 18px; border: 1px solid var(--border); border-left: 4px solid var(--navy); }
   .stat-card.orange { border-left-color: var(--orange); }
   .stat-card.green  { border-left-color: var(--green); }
   .stat-card.red    { border-left-color: var(--red); }
@@ -90,48 +90,67 @@
   .stat-card .label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
   .stat-card .value { font-size: 26px; font-weight: 700; color: var(--navy); margin: 4px 0 0; }
   .stat-card .sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* CHARTS */
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-  .chart-card {
-    background: var(--white); border-radius: 10px;
-    padding: 16px 18px; border: 1px solid var(--border);
-  }
+  .chart-card { background: var(--white); border-radius: 10px; padding: 16px 18px; border: 1px solid var(--border); }
   .chart-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
   .chart-wrap { position: relative; height: 220px; }
-  .table-card {
-    background: var(--white); border-radius: 10px;
-    padding: 16px 18px; border: 1px solid var(--border); margin-bottom: 20px;
-  }
+  .chart-wrap-tall { position: relative; height: 260px; }
+
+  /* TABLES */
+  .table-card { background: var(--white); border-radius: 10px; padding: 16px 18px; border: 1px solid var(--border); margin-bottom: 20px; }
   .table-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th {
-    background: var(--navy); color: white; padding: 9px 10px;
-    text-align: center; font-size: 11px; font-weight: 600; white-space: nowrap;
-  }
+  th { background: var(--navy); color: white; padding: 9px 10px; text-align: center; font-size: 11px; font-weight: 600; white-space: nowrap; }
   th:first-child { text-align: left; }
   td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: center; }
   td:first-child { text-align: left; font-weight: 600; }
   tr:hover td { background: #F8FAFE; }
   tr.team-avg td { background: #EBF2FA; font-weight: 700; border-top: 2px solid var(--navy); }
+
   .pill { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
   .pill.green  { background: #D5F5E3; color: #1E8449; }
   .pill.yellow { background: #FEF9E7; color: #9A7D0A; }
   .pill.red    { background: #FADBD8; color: #943126; }
   .pill.gray   { background: #F2F3F4; color: #7F8C8D; }
-  .pass  { color: var(--green); font-weight: 700; }
-  .fail  { color: var(--red);   font-weight: 700; }
-  .na    { color: var(--muted); }
-  .log-card {
-    background: var(--white); border-radius: 10px;
-    padding: 16px 18px; border: 1px solid var(--border);
-  }
-  .log-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .pass { color: var(--green); font-weight: 700; }
+  .fail { color: var(--red);   font-weight: 700; }
+  .na   { color: var(--muted); }
+
   .log-table th { font-size: 10px; }
   .log-table td { font-size: 11px; }
   .log-table td a { color: var(--navy-light); text-decoration: none; }
-  .log-table td a:hover { text-decoration: underline; }
-  .remarks-cell { max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .remarks-cell { max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+
+  /* AUDIT LOG TAB — coaching filters */
+  .coaching-bar {
+    background: #EBF2FA; border: 1px solid #C5D8F0; border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 18px;
+    display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+  }
+  .coaching-bar label { font-size: 10px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+  .coaching-bar select { border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: var(--navy); background: white; min-width: 200px; }
+  .coaching-title { font-size: 13px; font-weight: 700; color: var(--navy); align-self: center; }
+
+  /* TOP MARKDOWNS */
+  .markdown-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .markdown-card {
+    background: var(--white); border-radius: 10px; padding: 18px;
+    border: 1px solid var(--border); border-top: 4px solid var(--red);
+    text-align: center; position: relative;
+  }
+  .markdown-card.rank-1 { border-top-color: #C0392B; }
+  .markdown-card.rank-2 { border-top-color: #E74C3C; }
+  .markdown-card.rank-3 { border-top-color: #F1948A; }
+  .markdown-rank { font-size: 22px; font-weight: 900; color: var(--red); }
+  .markdown-param { font-size: 13px; font-weight: 700; color: var(--navy); margin: 4px 0; }
+  .markdown-count { font-size: 22px; font-weight: 700; color: var(--text); }
+  .markdown-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .markdown-empty { background: var(--white); border-radius: 10px; padding: 18px; border: 1px dashed var(--border); text-align: center; color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
@@ -147,6 +166,13 @@
   </div>
 </div>
 
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('overview')">📈 Overview</button>
+  <button class="tab-btn" onclick="switchTab('auditlog')">📋 Audit Log</button>
+</div>
+
+<!-- GLOBAL FILTERS -->
 <div class="filters">
   <div class="filter-group">
     <label>👤 Filter Agents</label>
@@ -204,89 +230,97 @@
   </div>
 </div>
 
-<div class="main">
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 1: OVERVIEW                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="tab-overview" class="tab-content active">
   <div id="loading" class="loading">Loading QA data...</div>
-  <div id="dashboard" style="display:none">
+  <div id="overview-dashboard" style="display:none">
 
     <div class="stat-cards">
-      <div class="stat-card orange">
-        <div class="label">Avg QA Score</div>
-        <div class="value" id="avg-score">—</div>
-        <div class="sub">All filtered audits</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Total Audits</div>
-        <div class="value" id="total-audits">—</div>
-        <div class="sub">Form submissions</div>
-      </div>
-      <div class="stat-card green">
-        <div class="label">Pass Rate (≥95%)</div>
-        <div class="value" id="pass-rate">—</div>
-        <div class="sub">Audits scoring ≥95%</div>
-      </div>
-      <div class="stat-card red">
-        <div class="label">Agents Audited</div>
-        <div class="value" id="agents-count">—</div>
-        <div class="sub">Unique agents</div>
-      </div>
-      <div class="stat-card yellow">
-        <div class="label">Revenue Opp Pass</div>
-        <div class="value" id="rev-pass">—</div>
-        <div class="sub">P9 pass rate (excl. NA)</div>
-      </div>
+      <div class="stat-card orange"><div class="label">Avg QA Score</div><div class="value" id="avg-score">—</div><div class="sub">All filtered audits</div></div>
+      <div class="stat-card"><div class="label">Total Audits</div><div class="value" id="total-audits">—</div><div class="sub">Form submissions</div></div>
+      <div class="stat-card green"><div class="label">Pass Rate (≥95%)</div><div class="value" id="pass-rate">—</div><div class="sub">Audits scoring ≥95%</div></div>
+      <div class="stat-card red"><div class="label">Agents Audited</div><div class="value" id="agents-count">—</div><div class="sub">Unique agents</div></div>
+      <div class="stat-card yellow"><div class="label">Revenue Opp Pass</div><div class="value" id="rev-pass">—</div><div class="sub">P9 pass rate (excl. NA)</div></div>
     </div>
 
     <div class="charts-row">
-      <div class="chart-card">
-        <h3>📈 Avg QA Score by Agent</h3>
-        <div class="chart-wrap"><canvas id="agentChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <h3>📆 Score Trend by Month</h3>
-        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
-      </div>
+      <div class="chart-card"><h3>📈 Avg QA Score by Agent</h3><div class="chart-wrap"><canvas id="agentChart"></canvas></div></div>
+      <div class="chart-card"><h3>📆 Score Trend by Month</h3><div class="chart-wrap"><canvas id="trendChart"></canvas></div></div>
     </div>
-
     <div class="charts-row">
-      <div class="chart-card">
-        <h3>✅ Parameter Pass Rates (Team)</h3>
-        <div class="chart-wrap"><canvas id="paramChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <h3>📡 Audits by Channel</h3>
-        <div class="chart-wrap"><canvas id="channelChart"></canvas></div>
-      </div>
+      <div class="chart-card"><h3>✅ Parameter Pass Rates (Team)</h3><div class="chart-wrap"><canvas id="paramChart"></canvas></div></div>
+      <div class="chart-card"><h3>📡 Audits by Channel</h3><div class="chart-wrap"><canvas id="channelChart"></canvas></div></div>
     </div>
 
     <div class="table-card">
       <h3>👥 Agent QA Summary</h3>
       <div class="table-wrap">
-        <table id="agent-table">
-          <thead>
-            <tr>
-              <th>Agent</th><th>Audits</th><th>Avg Score</th>
-              <th>P1<br>Email</th><th>P2<br>Comm</th><th>P3<br>Order</th>
-              <th>P4<br>Billing</th><th>P5<br>Delivery</th><th>P6<br>Translator</th>
-              <th>P7<br>Doc QC</th><th>P8<br>Hist Rev</th><th>P9<br>Revenue</th><th>P10<br>Upsell Flag</th>
-            </tr>
-          </thead>
+        <table>
+          <thead><tr>
+            <th>Agent</th><th>Audits</th><th>Avg Score</th>
+            <th>P1<br>Email</th><th>P2<br>Comm</th><th>P3<br>Order</th>
+            <th>P4<br>Billing</th><th>P5<br>Delivery</th><th>P6<br>Translator</th>
+            <th>P7<br>Doc QC</th><th>P8<br>Hist Rev</th><th>P9<br>Revenue</th><th>P10<br>Upsell Flag</th>
+          </tr></thead>
           <tbody id="agent-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <div class="log-card">
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TAB 2: AUDIT LOG                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="tab-auditlog" class="tab-content">
+  <div id="loading2" class="loading" style="display:none">Loading...</div>
+  <div id="auditlog-dashboard">
+
+    <!-- Coaching agent selector -->
+    <div class="coaching-bar">
+      <div>
+        <label>🎯 Select Agent for Coaching</label>
+        <select id="coaching-agent">
+          <option value="">— All Agents —</option>
+        </select>
+      </div>
+      <div class="coaching-title" id="coaching-title"></div>
+    </div>
+
+    <!-- Mini stat cards -->
+    <div class="stat-cards" style="grid-template-columns: repeat(3, 1fr); max-width: 560px; margin-bottom:20px;">
+      <div class="stat-card orange"><div class="label">Total Audits</div><div class="value" id="al-total">—</div><div class="sub">In date range</div></div>
+      <div class="stat-card"><div class="label">QA Average</div><div class="value" id="al-avg">—</div><div class="sub">Avg score</div></div>
+      <div class="stat-card green"><div class="label">Pass Rate</div><div class="value" id="al-pass">—</div><div class="sub">Scoring ≥95%</div></div>
+    </div>
+
+    <!-- Score trend + Top markdowns row -->
+    <div class="charts-row" style="grid-template-columns: 1fr 1fr; margin-bottom:20px;">
+      <div class="chart-card">
+        <h3>📆 QA Score Trend</h3>
+        <div class="chart-wrap-tall"><canvas id="al-trendChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>🔴 Top 3 Markdown Drivers</h3>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Parameters with the most "No" marks</p>
+        <div id="markdown-cards" class="markdown-row" style="grid-template-columns:1fr 1fr 1fr;"></div>
+      </div>
+    </div>
+
+    <!-- Audit log table -->
+    <div class="table-card">
       <h3>📋 Audit Log <span style="font-size:11px;color:var(--muted);font-weight:400" id="log-count"></span></h3>
       <div class="table-wrap">
         <table class="log-table">
-          <thead>
-            <tr>
-              <th>Date</th><th>Agent</th><th>Auditor</th><th>Channel</th><th>Order #</th><th>Score</th>
-              <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th>
-              <th>P6</th><th>P7</th><th>P8</th><th>P9</th><th>P10</th>
-              <th>Remarks</th><th>Link</th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th>Date</th><th>Agent</th><th>Auditor</th><th>Channel</th><th>Order #</th><th>Score</th>
+            <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th>
+            <th>P6</th><th>P7</th><th>P8</th><th>P9</th><th>P10</th>
+            <th>Remarks</th><th>Link</th>
+          </tr></thead>
           <tbody id="log-tbody"></tbody>
         </table>
       </div>
@@ -298,206 +332,272 @@
 <script>
 const SHEET_ID = '1PkdIg15kweWobxUfApY03PXJnpD-_OamgmgG818nQ5w';
 const GID      = '1917347646';
+const PARAM_LABELS = {
+  p1:'P1 Email', p2:'P2 Comm', p3:'P3 Order', p4:'P4 Billing', p5:'P5 Delivery',
+  p6:'P6 Translator', p7:'P7 Doc QC', p8:'P8 Hist Rev', p9:'P9 Revenue', p10:'P10 Upsell'
+};
 
-let allRows = [], allAgents = [], selectedAgents = new Set(), charts = {};
+let allRows=[], allAgents=[], selectedAgents=new Set(), charts={};
+let currentTab='overview';
 
-// ── Parse a gviz date value into YYYY-MM-DD string ────────────────────────
+// ── Tab switching ─────────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (allRows.length) renderAll();
+}
+
+// ── Parse date ────────────────────────────────────────────────────────────
 function parseDateStr(v) {
   if (!v) return '';
   const s = String(v);
-  // gviz JSONP format: "Date(2026,7,10)" — month is 0-indexed
   const gviz = s.match(/Date\((\d+),(\d+),(\d+)/);
   if (gviz) {
-    const y = gviz[1], m = String(parseInt(gviz[2]) + 1).padStart(2,'0'), d = String(gviz[3]).padStart(2,'0');
-    return `${y}-${m}-${d}`;
+    return `${gviz[1]}-${String(parseInt(gviz[2])+1).padStart(2,'0')}-${String(gviz[3]).padStart(2,'0')}`;
   }
-  // "M/D/YYYY" format
   const slash = s.match(/^(\d+)\/(\d+)\/(\d+)/);
-  if (slash) {
-    return `${slash[3]}-${String(slash[1]).padStart(2,'0')}-${String(slash[2]).padStart(2,'0')}`;
-  }
-  // Numeric serial (rarely seen in JSONP)
+  if (slash) return `${slash[3]}-${String(slash[1]).padStart(2,'0')}-${String(slash[2]).padStart(2,'0')}`;
   const n = parseFloat(s);
-  if (!isNaN(n)) {
-    const d2 = new Date(1899, 11, 30 + Math.floor(n));
-    return d2.toISOString().slice(0, 10);
-  }
+  if (!isNaN(n)) return new Date(1899,11,30+Math.floor(n)).toISOString().slice(0,10);
   return '';
 }
 
-// ── Fetch data via JSONP ──────────────────────────────────────────────────
+// ── Fetch via JSONP ───────────────────────────────────────────────────────
 function fetchData() {
   return new Promise((resolve, reject) => {
-    const cbName = 'gvizCb_' + Date.now();
-    const script = document.createElement('script');
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=responseHandler:${cbName}&gid=${GID}`;
-    window[cbName] = function(json) {
-      delete window[cbName];
-      document.body.removeChild(script);
-      resolve(json);
-    };
-    script.onerror = () => reject(new Error('Failed to load data — check sheet is public'));
-    script.src = url;
+    const cb = 'gvizCb_'+Date.now(), script = document.createElement('script');
+    window[cb] = json => { delete window[cb]; document.body.removeChild(script); resolve(json); };
+    script.onerror = () => reject(new Error('Failed to load — check sheet is public'));
+    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=responseHandler:${cb}&gid=${GID}`;
     document.body.appendChild(script);
   }).then(json => {
-    const rows = json.table.rows;
-    const parsed = [];
-    for (let i = 1; i < rows.length; i++) {
-      const r = rows[i].c;
-      if (!r || !r[0] || !r[0].v) continue;
-      const get = (col) => (r[col] && r[col].v != null) ? String(r[col].v).trim() : '';
-      const dateStr = parseDateStr(r[0].v);
-      const score = parseFloat(get(20)) || 0;
-      parsed.push({
-        dateStr,
-        auditor:   get(2),  agent:    get(3),
-        auditDate: get(4),  channel:  get(5),
-        orderNum:  get(6),  convLink: get(7),
-        p1: get(8),  p2: get(9),  p3: get(10), p4: get(11),
-        p5: get(12), p6: get(13), p7: get(14), p8: get(15),
-        p9: get(16), p10: get(17),
-        remarks:   get(18), auditType: get(19),
-        score,
-        month:     get(21), monthYear: get(22),
-      });
-    }
-    return parsed;
+    const get = (r,col) => (r[col]&&r[col].v!=null) ? String(r[col].v).trim() : '';
+    return json.table.rows.slice(1).filter(row => row.c&&row.c[0]&&row.c[0].v).map(row => ({
+      dateStr:   parseDateStr(row.c[0].v),
+      auditor:   get(row.c,2), agent:     get(row.c,3),
+      auditDate: get(row.c,4), channel:   get(row.c,5),
+      orderNum:  get(row.c,6), convLink:  get(row.c,7),
+      p1:get(row.c,8),  p2:get(row.c,9),  p3:get(row.c,10), p4:get(row.c,11),
+      p5:get(row.c,12), p6:get(row.c,13), p7:get(row.c,14), p8:get(row.c,15),
+      p9:get(row.c,16), p10:get(row.c,17),
+      remarks:   get(row.c,18), auditType: get(row.c,19),
+      score:     parseFloat(get(row.c,20))||0,
+      month:     get(row.c,21), monthYear: get(row.c,22),
+    }));
   });
 }
 
-// ── Filter ────────────────────────────────────────────────────────────────
+// ── Global filter ─────────────────────────────────────────────────────────
 function getFiltered() {
-  const start     = document.getElementById('start-date').value;
-  const end       = document.getElementById('end-date').value;
-  const channel   = document.getElementById('channel-filter').value;
-  const month     = document.getElementById('month-filter').value;
-  const auditType = document.getElementById('audit-type-filter').value;
+  const start=document.getElementById('start-date').value;
+  const end=document.getElementById('end-date').value;
+  const channel=document.getElementById('channel-filter').value;
+  const month=document.getElementById('month-filter').value;
+  const auditType=document.getElementById('audit-type-filter').value;
   return allRows.filter(r => {
     if (start && r.dateStr < start) return false;
     if (end   && r.dateStr > end)   return false;
-    if (channel   && r.channel   !== channel)   return false;
-    if (month     && r.monthYear !== month)      return false;
-    if (auditType && r.auditType !== auditType)  return false;
-    if (selectedAgents.size > 0 && !selectedAgents.has(r.agent)) return false;
+    if (channel   && r.channel!==channel)     return false;
+    if (month     && r.monthYear!==month)     return false;
+    if (auditType && r.auditType!==auditType) return false;
+    if (selectedAgents.size>0 && !selectedAgents.has(r.agent)) return false;
     return true;
   });
 }
 
-function renderAll() {
-  const rows = getFiltered();
-  renderCards(rows); renderAgentChart(rows); renderTrendChart(rows);
-  renderParamChart(rows); renderChannelChart(rows);
-  renderAgentTable(rows); renderLog(rows);
-}
-
+// ── Helpers ───────────────────────────────────────────────────────────────
 function scorePill(score) {
   if (!score) return '<span class="pill gray">—</span>';
-  const cls = score >= 95 ? 'green' : score >= 80 ? 'yellow' : 'red';
-  return `<span class="pill ${cls}">${score.toFixed(2)}%</span>`;
+  return `<span class="pill ${score>=95?'green':score>=80?'yellow':'red'}">${score.toFixed(2)}%</span>`;
 }
 function pCell(val) {
   if (!val) return '<span class="na">—</span>';
-  if (val === 'Yes') return '<span class="pass">✔</span>';
-  if (val === 'No')  return '<span class="fail">✘</span>';
+  if (val==='Yes') return '<span class="pass">✔</span>';
+  if (val==='No')  return '<span class="fail">✘</span>';
   return '<span class="na">NA</span>';
 }
 
+// ── Render All ────────────────────────────────────────────────────────────
+function renderAll() {
+  const rows = getFiltered();
+  if (currentTab === 'overview') {
+    renderOverview(rows);
+  } else {
+    renderAuditLog(rows);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// OVERVIEW TAB
+// ══════════════════════════════════════════════════════
+function renderOverview(rows) {
+  renderCards(rows);
+  renderAgentChart(rows);
+  renderTrendChart(rows);
+  renderParamChart(rows);
+  renderChannelChart(rows);
+  renderAgentTable(rows);
+}
+
 function renderCards(rows) {
-  const scores = rows.map(r => r.score).filter(s => s > 0);
-  const avg  = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
-  const pass = scores.filter(s => s >= 95).length;
-  const p9rows = rows.filter(r => r.p9==='Yes'||r.p9==='No');
-  const p9pass = p9rows.filter(r => r.p9==='Yes').length;
-  document.getElementById('avg-score').textContent    = avg ? avg.toFixed(2)+'%' : '—';
-  document.getElementById('total-audits').textContent = rows.length;
-  document.getElementById('pass-rate').textContent    = scores.length ? Math.round(pass/scores.length*100)+'%' : '—';
-  document.getElementById('agents-count').textContent = new Set(rows.map(r=>r.agent)).size;
-  document.getElementById('rev-pass').textContent     = p9rows.length ? Math.round(p9pass/p9rows.length*100)+'%' : '—';
-  document.getElementById('last-updated').textContent = 'Updated: '+new Date().toLocaleString();
+  const scores=rows.map(r=>r.score).filter(s=>s>0);
+  const avg=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:0;
+  const pass=scores.filter(s=>s>=95).length;
+  const p9rows=rows.filter(r=>r.p9==='Yes'||r.p9==='No');
+  document.getElementById('avg-score').textContent=avg?avg.toFixed(2)+'%':'—';
+  document.getElementById('total-audits').textContent=rows.length;
+  document.getElementById('pass-rate').textContent=scores.length?Math.round(pass/scores.length*100)+'%':'—';
+  document.getElementById('agents-count').textContent=new Set(rows.map(r=>r.agent)).size;
+  document.getElementById('rev-pass').textContent=p9rows.length?Math.round(p9rows.filter(r=>r.p9==='Yes').length/p9rows.length*100)+'%':'—';
+  document.getElementById('last-updated').textContent='Updated: '+new Date().toLocaleString();
 }
 
 function renderAgentChart(rows) {
-  const byAgent = {};
-  rows.forEach(r => { if(!byAgent[r.agent]) byAgent[r.agent]=[]; if(r.score>0) byAgent[r.agent].push(r.score); });
-  const agents = Object.keys(byAgent).sort();
-  const avgs   = agents.map(a => { const sc=byAgent[a]; return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0; });
-  const colors = avgs.map(s => s>=95?'#27AE60':s>=80?'#F39C12':'#E74C3C');
-  if (charts.agent) charts.agent.destroy();
-  charts.agent = new Chart(document.getElementById('agentChart'), {
-    type:'bar', data:{labels:agents,datasets:[{label:'Avg QA Score (%)',data:avgs,backgroundColor:colors,borderRadius:5}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}},x:{ticks:{font:{size:10}}}}}
+  const byAgent={};
+  rows.forEach(r=>{if(!byAgent[r.agent])byAgent[r.agent]=[];if(r.score>0)byAgent[r.agent].push(r.score);});
+  const agents=Object.keys(byAgent).sort();
+  const avgs=agents.map(a=>{const sc=byAgent[a];return sc.length?+(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0;});
+  if(charts.agent)charts.agent.destroy();
+  charts.agent=new Chart(document.getElementById('agentChart'),{
+    type:'bar',
+    data:{labels:agents,datasets:[{label:'Avg QA Score (%)',data:avgs,backgroundColor:avgs.map(s=>s>=95?'#27AE60':s>=80?'#F39C12':'#E74C3C'),borderRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}},x:{ticks:{font:{size:10}}}}}
   });
 }
 
 function renderTrendChart(rows) {
-  const byMonth = {};
-  rows.forEach(r => { const k=r.monthYear||'Unknown'; if(!byMonth[k]) byMonth[k]=[]; if(r.score>0) byMonth[k].push(r.score); });
-  const months = Object.keys(byMonth).sort();
-  const avgs   = months.map(m => { const sc=byMonth[m]; return sc.length ? +(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0; });
-  if (charts.trend) charts.trend.destroy();
-  charts.trend = new Chart(document.getElementById('trendChart'), {
-    type:'line', data:{labels:months,datasets:[{label:'Avg QA Score (%)',data:avgs,borderColor:'#1B3A5C',backgroundColor:'rgba(27,58,92,0.08)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:'#E67E00'}]},
+  const byMonth={};
+  rows.forEach(r=>{const k=r.monthYear||'Unknown';if(!byMonth[k])byMonth[k]=[];if(r.score>0)byMonth[k].push(r.score);});
+  const months=Object.keys(byMonth).sort();
+  const avgs=months.map(m=>{const sc=byMonth[m];return sc.length?+(sc.reduce((x,y)=>x+y,0)/sc.length).toFixed(2):0;});
+  if(charts.trend)charts.trend.destroy();
+  charts.trend=new Chart(document.getElementById('trendChart'),{
+    type:'line',
+    data:{labels:months,datasets:[{label:'Avg QA Score (%)',data:avgs,borderColor:'#1B3A5C',backgroundColor:'rgba(27,58,92,0.08)',fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:'#E67E00'}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}}}}
   });
 }
 
 function renderParamChart(rows) {
-  const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9'];
-  const labels = ['P1 Email','P2 Comm','P3 Order','P4 Billing','P5 Delivery','P6 Translator','P7 Doc QC','P8 History','P9 Revenue'];
-  const rates  = params.map(p => { const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No'); return s.length ? +(s.filter(r=>r[p]==='Yes').length/s.length*100).toFixed(1):0; });
-  const colors = rates.map(r => r>=95?'#27AE60':r>=80?'#F39C12':'#E74C3C');
-  if (charts.param) charts.param.destroy();
-  charts.param = new Chart(document.getElementById('paramChart'), {
-    type:'bar', data:{labels,datasets:[{label:'Pass Rate (%)',data:rates,backgroundColor:colors,borderRadius:4}]},
+  const params=['p1','p2','p3','p4','p5','p6','p7','p8','p9'];
+  const labels=['P1 Email','P2 Comm','P3 Order','P4 Billing','P5 Delivery','P6 Translator','P7 Doc QC','P8 History','P9 Revenue'];
+  const rates=params.map(p=>{const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No');return s.length?+(s.filter(r=>r[p]==='Yes').length/s.length*100).toFixed(1):0;});
+  if(charts.param)charts.param.destroy();
+  charts.param=new Chart(document.getElementById('paramChart'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'Pass Rate (%)',data:rates,backgroundColor:rates.map(r=>r>=95?'#27AE60':r>=80?'#F39C12':'#E74C3C'),borderRadius:4}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%'}},y:{ticks:{font:{size:10}}}}}
   });
 }
 
 function renderChannelChart(rows) {
   const email=rows.filter(r=>r.channel==='Email').length, voice=rows.filter(r=>r.channel==='Voice').length;
-  if (charts.channel) charts.channel.destroy();
-  charts.channel = new Chart(document.getElementById('channelChart'), {
-    type:'doughnut', data:{labels:['Email','Voice'],datasets:[{data:[email,voice],backgroundColor:['#2E5F8A','#E67E00'],borderWidth:2}]},
+  if(charts.channel)charts.channel.destroy();
+  charts.channel=new Chart(document.getElementById('channelChart'),{
+    type:'doughnut',
+    data:{labels:['Email','Voice'],datasets:[{data:[email,voice],backgroundColor:['#2E5F8A','#E67E00'],borderWidth:2}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}
   });
 }
 
 function renderAgentTable(rows) {
-  const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
-  const byAgent = {};
-  rows.forEach(r => { if(!byAgent[r.agent]) byAgent[r.agent]=[]; byAgent[r.agent].push(r); });
-  function passRate(ar, p) {
-    const s=ar.filter(r=>r[p]==='Yes'||r[p]==='No'); if(!s.length) return '—';
-    const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;
-    return `<span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span>`;
-  }
-  function avgScore(ar) { const sc=ar.map(r=>r.score).filter(s=>s>0); return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:0; }
-  let html = Object.keys(byAgent).sort().map(agent => {
-    const ar=byAgent[agent], avg=avgScore(ar);
-    return `<tr><td>${agent}</td><td>${ar.length}</td><td>${scorePill(avg)}</td>${params.map(p=>`<td>${passRate(ar,p)}</td>`).join('')}</tr>`;
-  }).join('');
-  const allScores=rows.map(r=>r.score).filter(s=>s>0), teamAvg=allScores.length?allScores.reduce((a,b)=>a+b,0)/allScores.length:0;
-  html += `<tr class="team-avg"><td>TEAM AVG</td><td>${rows.length}</td><td>${scorePill(teamAvg)}</td>${params.map(p=>{
-    const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No'); if(!s.length) return '<td>—</td>';
-    const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;
-    return `<td><span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span></td>`;
-  }).join('')}</tr>`;
-  document.getElementById('agent-tbody').innerHTML = html;
+  const params=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
+  const byAgent={};
+  rows.forEach(r=>{if(!byAgent[r.agent])byAgent[r.agent]=[];byAgent[r.agent].push(r);});
+  function pr(ar,p){const s=ar.filter(r=>r[p]==='Yes'||r[p]==='No');if(!s.length)return'—';const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;return`<span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span>`;}
+  function avg(ar){const sc=ar.map(r=>r.score).filter(s=>s>0);return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:0;}
+  let html=Object.keys(byAgent).sort().map(agent=>{const ar=byAgent[agent];return`<tr><td>${agent}</td><td>${ar.length}</td><td>${scorePill(avg(ar))}</td>${params.map(p=>`<td>${pr(ar,p)}</td>`).join('')}</tr>`;}).join('');
+  const allSc=rows.map(r=>r.score).filter(s=>s>0),tAvg=allSc.length?allSc.reduce((a,b)=>a+b,0)/allSc.length:0;
+  html+=`<tr class="team-avg"><td>TEAM AVG</td><td>${rows.length}</td><td>${scorePill(tAvg)}</td>${params.map(p=>{const s=rows.filter(r=>r[p]==='Yes'||r[p]==='No');if(!s.length)return'<td>—</td>';const rate=s.filter(r=>r[p]==='Yes').length/s.length*100;return`<td><span class="pill ${rate>=95?'green':rate>=80?'yellow':'red'}">${Math.round(rate)}%</span></td>`;}).join('')}</tr>`;
+  document.getElementById('agent-tbody').innerHTML=html;
 }
 
-function renderLog(rows) {
-  const sorted=[...rows].sort((a,b)=>(b.dateStr||'').localeCompare(a.dateStr||''));
-  document.getElementById('log-count').textContent=`(${sorted.length} audits)`;
-  const params=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
-  document.getElementById('log-tbody').innerHTML = sorted.map(r => `<tr>
+// ══════════════════════════════════════════════════════
+// AUDIT LOG TAB
+// ══════════════════════════════════════════════════════
+function renderAuditLog(rows) {
+  const coachAgent = document.getElementById('coaching-agent').value;
+  const filtered   = coachAgent ? rows.filter(r => r.agent === coachAgent) : rows;
+
+  // Title
+  document.getElementById('coaching-title').textContent = coachAgent ? `Coaching: ${coachAgent}` : '';
+
+  // Mini stats
+  const scores = filtered.map(r=>r.score).filter(s=>s>0);
+  const avg    = scores.length ? scores.reduce((a,b)=>a+b,0)/scores.length : 0;
+  const pass   = scores.filter(s=>s>=95).length;
+  document.getElementById('al-total').textContent = filtered.length;
+  document.getElementById('al-avg').textContent   = avg ? avg.toFixed(2)+'%' : '—';
+  document.getElementById('al-pass').textContent  = scores.length ? Math.round(pass/scores.length*100)+'%' : '—';
+
+  // Score trend (by audit date, sorted)
+  const sorted = [...filtered].sort((a,b)=>a.dateStr.localeCompare(b.dateStr));
+  const trendLabels = sorted.map(r=>r.dateStr);
+  const trendData   = sorted.map(r=>r.score||null);
+  if (charts.alTrend) charts.alTrend.destroy();
+  charts.alTrend = new Chart(document.getElementById('al-trendChart'), {
+    type:'line',
+    data:{labels:trendLabels,datasets:[{
+      label:'QA Score (%)', data:trendData,
+      borderColor:'#1B3A5C', backgroundColor:'rgba(27,58,92,0.08)',
+      fill:true, tension:0.3, pointRadius:4, pointBackgroundColor: trendData.map(s=>s>=95?'#27AE60':s>=80?'#F39C12':'#E74C3C')
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y?.toFixed(2)}%`}}},
+      scales:{
+        y:{min:0,max:100,ticks:{callback:v=>v+'%'}},
+        x:{ticks:{font:{size:9},maxRotation:45}}
+      }
+    }
+  });
+
+  // Top 3 markdown drivers
+  const params = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'];
+  const noCounts = params.map(p => ({
+    param: p,
+    label: PARAM_LABELS[p],
+    count: filtered.filter(r=>r[p]==='No').length
+  })).filter(x=>x.count>0).sort((a,b)=>b.count-a.count).slice(0,3);
+
+  const rankColors = ['rank-1','rank-2','rank-3'];
+  const rankNums   = ['#1','#2','#3'];
+  let mdHtml = '';
+  if (noCounts.length === 0) {
+    mdHtml = '<div class="markdown-empty" style="grid-column:1/-1">No markdowns found for this selection.</div>';
+  } else {
+    noCounts.forEach((item, i) => {
+      const total = filtered.filter(r=>r[item.param]==='Yes'||r[item.param]==='No').length;
+      const pct   = total ? Math.round(item.count/total*100) : 0;
+      mdHtml += `<div class="markdown-card ${rankColors[i]}">
+        <div class="markdown-rank">${rankNums[i]}</div>
+        <div class="markdown-param">${item.label}</div>
+        <div class="markdown-count">${item.count} ✘</div>
+        <div class="markdown-sub">${pct}% fail rate</div>
+      </div>`;
+    });
+    // fill empty slots
+    for (let i=noCounts.length; i<3; i++) {
+      mdHtml += `<div class="markdown-empty">No data</div>`;
+    }
+  }
+  document.getElementById('markdown-cards').innerHTML = mdHtml;
+
+  // Audit log table
+  const logSorted = [...filtered].sort((a,b)=>b.dateStr.localeCompare(a.dateStr));
+  document.getElementById('log-count').textContent = `(${logSorted.length} audits)`;
+  document.getElementById('log-tbody').innerHTML = logSorted.map(r=>`<tr>
     <td>${r.dateStr||''}</td><td>${r.agent}</td><td>${r.auditor}</td><td>${r.channel}</td><td>${r.orderNum||'—'}</td>
-    <td>${scorePill(r.score)}</td>${params.map(p=>`<td>${pCell(r[p])}</td>`).join('')}
+    <td>${scorePill(r.score)}</td>
+    ${['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'].map(p=>`<td>${pCell(r[p])}</td>`).join('')}
     <td class="remarks-cell" title="${(r.remarks||'').replace(/"/g,"'")}">${r.remarks||'—'}</td>
     <td>${r.convLink?`<a href="${r.convLink}" target="_blank">🔗</a>`:'—'}</td>
   </tr>`).join('');
 }
 
+// ── Agent multi-select (global) ───────────────────────────────────────────
 function buildAgentCheckboxes() {
   document.getElementById('agent-checkboxes').innerHTML = allAgents.map(a =>
     `<label><input type="checkbox" value="${a}" checked onchange="syncSelected()"> ${a}</label>`).join('');
@@ -505,26 +605,35 @@ function buildAgentCheckboxes() {
   updateAgentLabel();
 }
 function syncSelected() {
-  selectedAgents = new Set([...document.querySelectorAll('#agent-checkboxes input:checked')].map(c=>c.value));
+  selectedAgents=new Set([...document.querySelectorAll('#agent-checkboxes input:checked')].map(c=>c.value));
   updateAgentLabel();
 }
 function updateAgentLabel() {
   document.getElementById('agent-label').textContent =
-    (!selectedAgents.size || selectedAgents.size===allAgents.length) ? `All Agents (${allAgents.length})` : `${selectedAgents.size} of ${allAgents.length} selected`;
+    (!selectedAgents.size||selectedAgents.size===allAgents.length)?`All Agents (${allAgents.length})`:`${selectedAgents.size} of ${allAgents.length} selected`;
 }
-function toggleAgentDropdown(e) { e.stopPropagation(); document.getElementById('agent-panel').classList.toggle('hidden'); }
-document.addEventListener('click', () => document.getElementById('agent-panel')?.classList.add('hidden'));
-function selectAllAgents() { document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=true); syncSelected(); }
-function clearAllAgents()  { document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=false); syncSelected(); }
-function applyAgentFilter() { document.getElementById('agent-panel').classList.add('hidden'); renderAll(); }
+function toggleAgentDropdown(e){e.stopPropagation();document.getElementById('agent-panel').classList.toggle('hidden');}
+document.addEventListener('click',()=>document.getElementById('agent-panel')?.classList.add('hidden'));
+function selectAllAgents(){document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=true);syncSelected();}
+function clearAllAgents(){document.querySelectorAll('#agent-checkboxes input').forEach(c=>c.checked=false);syncSelected();}
+function applyAgentFilter(){document.getElementById('agent-panel').classList.add('hidden');renderAll();}
 
+// ── Coaching agent dropdown ───────────────────────────────────────────────
+function buildCoachingDropdown() {
+  const sel = document.getElementById('coaching-agent');
+  allAgents.forEach(a => { const o=document.createElement('option'); o.value=a; o.textContent=a; sel.appendChild(o); });
+  sel.addEventListener('change', () => { if(currentTab==='auditlog') renderAll(); });
+}
+
+// ── Month dropdown ────────────────────────────────────────────────────────
 function buildMonthDropdown() {
   const months=[...new Set(allRows.map(r=>r.monthYear).filter(Boolean))].sort();
   const sel=document.getElementById('month-filter');
-  months.forEach(m => { const o=document.createElement('option'); o.value=m; o.textContent=m; sel.appendChild(o); });
+  months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o);});
 }
 
-['start-date','end-date','channel-filter','month-filter','audit-type-filter'].forEach(id =>
+// ── Global filter listeners ───────────────────────────────────────────────
+['start-date','end-date','channel-filter','month-filter','audit-type-filter'].forEach(id=>
   document.getElementById(id).addEventListener('change', renderAll));
 
 function resetFilters() {
@@ -533,17 +642,20 @@ function resetFilters() {
   document.getElementById('channel-filter').value='';
   document.getElementById('month-filter').value='';
   document.getElementById('audit-type-filter').value='QA';
+  document.getElementById('coaching-agent').value='';
   selectAllAgents(); renderAll();
 }
 
+// ── Init ──────────────────────────────────────────────────────────────────
 (async function init() {
   try {
     allRows   = await fetchData();
     allAgents = [...new Set(allRows.map(r=>r.agent).filter(Boolean))].sort();
     buildAgentCheckboxes();
+    buildCoachingDropdown();
     buildMonthDropdown();
     document.getElementById('loading').style.display='none';
-    document.getElementById('dashboard').style.display='block';
+    document.getElementById('overview-dashboard').style.display='block';
     renderAll();
   } catch(err) {
     document.getElementById('loading').textContent='Error loading data: '+err.message;

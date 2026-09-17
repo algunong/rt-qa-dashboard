@@ -384,7 +384,7 @@ function fetchData() {
       p5:get(row.c,13), p6:get(row.c,14), p7:get(row.c,15), p8:get(row.c,16),
       p9:get(row.c,17), p10:get(row.c,18),
       remarks: get(row.c,19), auditType: get(row.c,4),
-      score:     parseFloat(get(row.c,20))||0,
+        score:     (parseFloat(get(row.c,20))||0) <= 1 ? (parseFloat(get(row.c,20))||0)*100 : (parseFloat(get(row.c,20))||0),
       month:     get(row.c,21), monthYear: get(row.c,22),
     }));
   });

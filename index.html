@@ -331,7 +331,7 @@
 
 <script>
 const SHEET_ID = '1PkdIg15kweWobxUfApY03PXJnpD-_OamgmgG818nQ5w';
-const GID      = '1917347646';
+const GID      = '1403033776';
 const PARAM_LABELS = {
   p1:'P1 Email', p2:'P2 Comm', p3:'P3 Order', p4:'P4 Billing', p5:'P5 Delivery',
   p6:'P6 Translator', p7:'P7 Doc QC', p8:'P8 Hist Rev', p9:'P9 Revenue', p10:'P10 Upsell'
@@ -378,12 +378,12 @@ function fetchData() {
     return json.table.rows.slice(1).filter(row => row.c&&row.c[0]&&row.c[0].v).map(row => ({
       dateStr:   parseDateStr(row.c[0].v),
       auditor:   get(row.c,2), agent:     get(row.c,3),
-      auditDate: get(row.c,4), channel:   get(row.c,5),
-      orderNum:  get(row.c,6), convLink:  get(row.c,7),
-      p1:get(row.c,8),  p2:get(row.c,9),  p3:get(row.c,10), p4:get(row.c,11),
-      p5:get(row.c,12), p6:get(row.c,13), p7:get(row.c,14), p8:get(row.c,15),
-      p9:get(row.c,16), p10:get(row.c,17),
-      remarks:   get(row.c,18), auditType: get(row.c,19),
+      auditDate: get(row.c,5), channel: get(row.c,6),
+      orderNum: get(row.c,7), convLink: get(row.c,8),
+      p1:get(row.c,9),  p2:get(row.c,10),  p3:get(row.c,11), p4:get(row.c,12),
+      p5:get(row.c,13), p6:get(row.c,14), p7:get(row.c,15), p8:get(row.c,16),
+      p9:get(row.c,17), p10:get(row.c,18),
+      remarks: get(row.c,19), auditType: get(row.c,4),
       score:     parseFloat(get(row.c,20))||0,
       month:     get(row.c,21), monthYear: get(row.c,22),
     }));
